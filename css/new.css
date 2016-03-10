@@ -1,0 +1,16 @@
+/* 
+    Document   : newt
+    Created on : 02-abr-2014, 16:49:07
+    Author     : usuario
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#new-todo {
+    padding: 16px 16px 16px 60px;
+    border: none;
+    background: rgba(0, 0, 0, 0.02);
+    z-index: 2;
+    box-shadow: none;
+}
+
