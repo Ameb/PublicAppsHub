@@ -46,7 +46,7 @@ render:function () {
     }
 });
 app.AppListItemView = Backbone.View.extend({
-
+    className: 'col-md-4',
    initialize:function () {
 
    },
@@ -61,7 +61,7 @@ app.AppListItemView = Backbone.View.extend({
 
 app.AppListGroupView = Backbone.View.extend({
     // el: 'div',
-    className: 'well well-sm',
+    className: 'well well-sm row',
     categoryName: "",
     categoryGroup: [],
     initialize: function (categoryName, categoryGroup) {

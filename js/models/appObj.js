@@ -20,7 +20,14 @@ app.AppCollection = Backbone.Collection.extend({
 
     model: app.AppObj,
     
-    localStorage: new Backbone.LocalStorage('Apps-backbone')
-            
+    localStorage: new Backbone.LocalStorage('Apps-backbone'),
+    // list categories devuelve una lista de los nombres de las categorias
+    listCategories: function() {
+        return [...new Set(this.models.map(item => item.attributes.category))];
+    },
+    // groupedApps devuelve las apps agrupadas por categoria
+    groupedApps: function() {
+        return _.groupBy(this.models, function(a){return a.get('category')});
+    }
   
 });
