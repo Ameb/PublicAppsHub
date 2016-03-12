@@ -118,7 +118,7 @@ addAppToCart: function (id) {
 $(document).on("ready", function () {
 
   app.loadTemplates(["AboutView","HeaderView", "AppView", 
-    "AppListItemView", "CategoryListView"],
+    "AppListItemView", "CategoryListView", "AppListGroupView"],
     function () {
       app.router = new app.Router();
       Backbone.history.start();

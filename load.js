@@ -26,7 +26,7 @@ app.AppList.create(new app.AppObj({'name': 'Aplicacion09','category':'Categoria1
 app.AppList.create(new app.AppObj({'name': 'Aplicacion010','category':'Categoria2'}));
 app.AppList.create(new app.AppObj({'name': 'Aplicacion011','category':'Categoria2'}));
 app.AppList.create(new app.AppObj({'name': 'Aplicacion012','category':'Categoria2'}));
-]);
+
 //
 var testApp2 = new app.AppObj({
 	name: 'Aplicacion2',

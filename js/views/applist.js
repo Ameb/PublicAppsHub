@@ -2,11 +2,13 @@ app.AppListView = Backbone.View.extend({
   categoryGroups: {},
   initialize:function () {
     var self = this;
+    this.categoryGroups = _.groupBy(app.AppList.models, function(a){return a.get('category')});
     this.model.on("reset", this.render, this);
     // agrupamos las aplicaciones en categorias
-    this.categoryGroups = _.groupBy(app.AppList.models, function(a){return a.get('category')});
     this.model.on("add", function (appObj) {
-        // añadir la aplicacion en la categoria que le corresponde
+        // actualizar las categorias
+        this.categoryGroups = _.groupBy(app.AppList.models, function(a){return a.get('category')});
+        // ^ no funciona. append <-
         self.$el.append(new app.AppListItemView({model:appObj}).render().el);
     });
 },
@@ -19,6 +21,7 @@ render:function () {
         });*/
         console.log(this.categoryGroups);
         _.each(this.categoryGroups, function (appCategory, key) {
+            /*
             // escribimos la categoria
             console.log(key);
             this.$el.append('<h1>'+key+'</h1>');
@@ -27,6 +30,10 @@ render:function () {
                 console.log(appObj);
                 this.$el.append(new app.AppListItemView({model:appObj}).render().el);    
             }, this);
+            */
+            // en vez de lo anterior, llamamos a la vista de la categoría para que la construya con
+            // categoryGroups.
+            this.$el.append(new app.AppListGroupView(key, appCategory).render().el);
         }, this);
         return this;
         /*
@@ -52,13 +59,21 @@ app.AppListItemView = Backbone.View.extend({
 }
 });
 
-app.AppCategoryItemView = Backbone.View.extend({
-    className: 'row',
-    initialize: function () {
-
+app.AppListGroupView = Backbone.View.extend({
+    // el: 'div',
+    className: 'well well-sm',
+    categoryName: "",
+    categoryGroup: [],
+    initialize: function (categoryName, categoryGroup) {
+        this.categoryName = categoryName;
+        this.categoryGroup = categoryGroup;
     },
     render: function () {
-        this.$el.html()
+        var applistHTML = "";
+        _.each(this.categoryGroup, function(appObj) {
+            applistHTML += (new app.AppListItemView({model: appObj}).render().el.outerHTML);
+        });
+        $(this.el).html(this.template({name: this.categoryName, apps: applistHTML}));
         return this;
     }
 })
