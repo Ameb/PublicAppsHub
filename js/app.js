@@ -29,7 +29,7 @@ app.Router = Backbone.Router.extend({
   routes: {
     "":                 "showAppList",
     "Apps/:id":    "detallesApp",
-    "cartItems":        "showAllCartItems", 
+    "cat/:categoryName":        "showAppCategoryList", 
     "cartItems/:id":    "detallesCartItem",
     "addAppToCart/:id":"addAppToCart",
     "about":              "about" 
@@ -48,7 +48,13 @@ showAppList: function () {
        {model: app.AppList}).render().el);
     app.theHeaderView.selectMenuItem('');
 },
-
+showAppCategoryList: function (categoryName) {
+    app.AppList.fetch({reset:true});
+    this.$content.html(new app.AppListGroupView(
+    //console.log(app.AppList.groupedApps()[categoryName]);
+    categoryName, app.AppList.groupedApps()[categoryName]).render().el);
+    app.theHeaderView.selectMenuItem('');
+},
 detallesApp: function (id) {
     var App = app.AppList.get(id);
     var self = this;

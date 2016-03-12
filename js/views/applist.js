@@ -2,12 +2,12 @@ app.AppListView = Backbone.View.extend({
   categoryGroups: {},
   initialize:function () {
     var self = this;
-    this.categoryGroups = _.groupBy(app.AppList.models, function(a){return a.get('category')});
+    this.categoryGroups = app.AppList.groupedApps();
     this.model.on("reset", this.render, this);
     // agrupamos las aplicaciones en categorias
     this.model.on("add", function (appObj) {
         // actualizar las categorias
-        this.categoryGroups = _.groupBy(app.AppList.models, function(a){return a.get('category')});
+        // this.categoryGroups = app.AppList.groupedApps();
         // ^ no funciona. append <-
         self.$el.append(new app.AppListItemView({model:appObj}).render().el);
     });
@@ -19,7 +19,6 @@ render:function () {
         var categoryGroups = app.AppList.groupBy(function(appObj) {
             return appObj.get("category");
         });*/
-        console.log(this.categoryGroups);
         _.each(this.categoryGroups, function (appCategory, key) {
             /*
             // escribimos la categoria
