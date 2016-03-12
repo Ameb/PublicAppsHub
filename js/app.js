@@ -37,7 +37,6 @@ app.Router = Backbone.Router.extend({
 
 initialize: function () {  
     app.AppList = new app.AppCollection();
-    app.allCartItems = new app.CartItemCollection();  
     app.theHeaderView = new app.HeaderView();
     $('.header').html(app.theHeaderView.el);
     this.$content = $("#content");
@@ -117,11 +116,11 @@ addAppToCart: function (id) {
 
 $(document).on("ready", function () {
 
-  app.loadTemplates(["AboutView","HeaderView", "AppView", 
+  app.loadTemplates(["AboutView","HeaderView", "AppView", "HeaderCategoryMenuItemView",
     "AppListItemView", "CategoryListView", "AppListGroupView"],
     function () {
       app.router = new app.Router();
       Backbone.history.start();
+      app.theHeaderView.render();
   });
-  
 });

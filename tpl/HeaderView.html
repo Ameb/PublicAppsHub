@@ -1,33 +1,32 @@
-<header class="navbar navbar-default" role="banner">
-        <!-- <div class="navbar-inner"> -->
-  <div class="container"> 
-             
-     <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nv-collapse-example">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">PublicAppsHub</a>
-     </div>
-      <nav class="collapse navbar-collapse nv-collapse-example" role="navigation">
-                <ul class="nav navbar-nav">
-                    <li class="all-CartItems-menu"><a href="#categories">Categories</a></li> 
-               
-                </ul>
-                <ul class="nav navbar-nav">
-                    <li class="all-CartItems-menu"><a href="#newApp">New App</a></li> 
-               
-                </ul>
-                <ul class="nav navbar-nav pull-right">
-                    <li class="about-menu"><a href="#about">About</a></li>
-                </ul>        
-                   
-     </nav>
-            <!--/.nav-collapse -->    
-
-      </div>
-</header>
-
-      
+<nav class="navbar navbar-default" role="navigation">
+  <!-- El logotipo y el icono que despliega el menú se agrupan
+       para mostrarlos mejor en los dispositivos móviles -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse"
+            data-target=".navbar-ex1-collapse">
+      <span class="sr-only">Desplegar navegación</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="#">Logotipo</a>
+  </div>
+ 
+  <!-- Agrupar los enlaces de navegación, los formularios y cualquier
+       otro elemento que se pueda ocultar al minimizar la barra -->
+  <div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav">
+      <li><a href="#newApp">New App</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Categorias<b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <%= categories %>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#about">About</a></li>
+    </ul>
+  </div>
+</nav>
