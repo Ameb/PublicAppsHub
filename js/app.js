@@ -34,19 +34,12 @@ app.Router = Backbone.Router.extend({
     "addAppToCart/:id": "addAppToCart",
     "about": "about"
   },
-
   initialize: function() {
+    // incializa el header y el contenido. Muestra la lista de apps
     app.theHeaderView.render();
     this.$content = $("#content");
     $('.header').html(app.theHeaderView.el);
     this.showAppList();
-  },
-  onuse: function() {
-    // Esta funcion se llama siempre que se ejecute alguna de las otras
-    console.log('onuse');
-    app.AppList.fetch({
-      reset: true
-    });
   },
   showAppList: function() {
     this.$content.html(new app.AppListView({
@@ -90,12 +83,12 @@ app.Router = Backbone.Router.extend({
         "submit": function(e) {
           e.preventDefault();
           this.model.save()
-          .done(function(result) {
-            alert("Successful!");
-          })
-          .fail(function(error) {
-            alert(error);
-          });
+            .done(function(result) {
+              alert("Successful!");
+            })
+            .fail(function(error) {
+              alert(error);
+            });
           return false;
         }
       }
@@ -117,10 +110,11 @@ app.Router = Backbone.Router.extend({
 
 
 $(document).on("ready", function() {
+  // No se iniciazila nada hasta que no se han cargado los datos y las plantillas
   app.AppList = new app.AppCollection();
   app.AppList.fetch().done(function() {
     app.loadTemplates(["AboutView", "HeaderView", "AppView", "HeaderCategoryMenuItemView",
-      "AppListItemView", "CategoryListView", "AppListGroupView"
+        "AppListItemView", "AppListGroupView"
       ],
       function() {
         app.theHeaderView = new app.HeaderView();
