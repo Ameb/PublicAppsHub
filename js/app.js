@@ -13,120 +13,146 @@ var app = {
       if (app[view]) {
         deferreds.push($.get('tpl/' + view + '.html', function(data) {
           app[view].prototype.template = _.template(data);
-      }, 'html'));
-    } else {
+        }, 'html'));
+      } else {
         alert(view + " not found");
-    }
-});
+      }
+    });
 
     $.when.apply(null, deferreds).done(callback);
-}
+  }
 
 };
 
 app.Router = Backbone.Router.extend({
 
   routes: {
-    "":                 "showAppList",
-    "Apps/:id":    "detallesApp",
-    "cat/:categoryName":        "showAppCategoryList", 
-    "cartItems/:id":    "detallesCartItem",
-    "addAppToCart/:id":"addAppToCart",
-    "about":              "about" 
-},
+    "": "showAppList",
+    "Apps/:id": "detallesApp",
+    "cat/:categoryName": "showAppCategoryList",
+    "newApp": "showAppform",
+    "addAppToCart/:id": "addAppToCart",
+    "about": "about"
+  },
 
-initialize: function () {  
+  initialize: function() {
     app.AppList = new app.AppCollection();
     app.theHeaderView = new app.HeaderView();
     $('.header').html(app.theHeaderView.el);
     this.$content = $("#content");
-},
+  },
 
-showAppList: function () {
-    app.AppList.fetch({reset:true});
-    this.$content.html(new app.AppListView(
-       {model: app.AppList}).render().el);
+  showAppList: function() {
+    app.AppList.fetch({
+      reset: true
+    });
+    this.$content.html(new app.AppListView({
+      model: app.AppList
+    }).render().el);
     app.theHeaderView.selectMenuItem('');
-},
-showAppCategoryList: function (categoryName) {
-    app.AppList.fetch({reset:true});
+  },
+  showAppCategoryList: function(categoryName) {
+    app.AppList.fetch({
+      reset: true
+    });
     this.$content.html(new app.AppListGroupView(
-    //console.log(app.AppList.groupedApps()[categoryName]);
-    categoryName, app.AppList.groupedApps()[categoryName]).render().el);
+      //console.log(app.AppList.groupedApps()[categoryName]);
+      categoryName, app.AppList.groupedApps()[categoryName]).render().el);
     app.theHeaderView.selectMenuItem('');
-},
-detallesApp: function (id) {
+  },
+  detallesApp: function(id) {
     var App = app.AppList.get(id);
     var self = this;
     App.fetch({
-      success: function (data) {
+      success: function(data) {
         console.log(data);
-        self.$content.html(new app.AppView({model: data}).render().el);
-    }
-});
+        self.$content.html(new app.AppView({
+          model: data
+        }).render().el);
+      }
+    });
     app.theHeaderView.selectMenuItem('');
-},
+  },
 
-showAllCartItems: function () {
-    
+  showAllCartItems: function() {
+
     if (!app.aCartItemListView) {
       app.allCartItems.fetch();
-      app.aCartItemListView = new app.CartItemListView({model: app.allCartItems});
-  } else {
-   app.aCartItemListView.delegateEvents();
-}
-app.aCartItemListView.render();     
-this.$content.html( app.aCartItemListView.el);      
-app.theHeaderView.selectMenuItem('all-CartItems-menu');
-},                  
+      app.aCartItemListView = new app.CartItemListView({
+        model: app.allCartItems
+      });
+    } else {
+      app.aCartItemListView.delegateEvents();
+    }
+    app.aCartItemListView.render();
+    this.$content.html(app.aCartItemListView.el);
+    app.theHeaderView.selectMenuItem('all-CartItems-menu');
+  },
 
-detallesCartItem: function (id) {
+  detallesCartItem: function(id) {
     //    var cartItem = new app.CartItem({id: id});
     var cartItem = app.allCartItems.get(id);
     var self = this;
     cartItem.fetch({
-      success: function (data) {
+      success: function(data) {
         console.log(data);
-                // Note that we could also 'recycle' the same instance of AppFullView
-                // instead of creating new instances
-                self.$content.html(new app.CartItemView({model: data}).render().el);
-            }
-        });
+        // Note that we could also 'recycle' the same instance of AppFullView
+        // instead of creating new instances
+        self.$content.html(new app.CartItemView({
+          model: data
+        }).render().el);
+      }
+    });
     app.theHeaderView.selectMenuItem('all-CartItems-menu');
-},
+  },
 
-addAppToCart: function (id) {
-       //completa esta función
-       var p = app.AppList.get(id);
-       p.attributes.quantity--;
-       var ci = new app.CartItem();
-       ci.attributes.AppId = id;
-       app.allCartItems.create(ci);
-       // guardamos
-       ci.save();
-       p.save();
-       this.showAllCartItems();
-       
-   },
-   
-   about: function () {
-      if (!this.aboutView) {
-        this.aboutView = new app.AboutView();
+  showAppform: function() {
+      //completa esta función
+    var p = app.AppList.get(id);
+    p.attributes.quantity--;
+    var ci = new app.CartItem();
+    ci.attributes.AppId = id;
+    app.allCartItems.create(ci);
+    // guardamos
+    ci.save();
+    p.save();
+    this.showAllCartItems();
+
+  },
+
+  addAppToCart: function(id) {
+    //completa esta función
+    var p = app.AppList.get(id);
+    p.attributes.quantity--;
+    var ci = new app.CartItem();
+    ci.attributes.AppId = id;
+    app.allCartItems.create(ci);
+    // guardamos
+    ci.save();
+    p.save();
+    this.showAllCartItems();
+
+  },
+
+  about: function() {
+    if (!this.aboutView) {
+      this.aboutView = new app.AboutView();
     }
     this.$content.html(this.aboutView.el);
     app.theHeaderView.selectMenuItem('about-menu');
-}
+  }
 
 });
 
 
-$(document).on("ready", function () {
+$(document).on("ready", function() {
 
-  app.loadTemplates(["AboutView","HeaderView", "AppView", "HeaderCategoryMenuItemView",
-    "AppListItemView", "CategoryListView", "AppListGroupView"],
-    function () {
+  app.loadTemplates(["AboutView", "HeaderView", "AppView", "HeaderCategoryMenuItemView",
+      "AppListItemView", "CategoryListView", "AppListGroupView"
+    ],
+    function() {
       app.router = new app.Router();
       Backbone.history.start();
       app.theHeaderView.render();
-  });
+    });
 });

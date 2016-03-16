@@ -1,25 +1,27 @@
 app.AppListView = Backbone.View.extend({
-  categoryGroups: {},
-  initialize:function () {
-    var self = this;
-    this.categoryGroups = app.AppList.groupedApps();
-    this.model.on("reset", this.render, this);
-    // agrupamos las aplicaciones en categorias
-    this.model.on("add", function (appObj) {
-        // actualizar las categorias
-        // this.categoryGroups = app.AppList.groupedApps();
-        // ^ no funciona. append <-
-        self.$el.append(new app.AppListItemView({model:appObj}).render().el);
-    });
-},
+    categoryGroups: {},
+    initialize: function() {
+        var self = this;
+        this.categoryGroups = app.AppList.groupedApps();
+        this.model.on("reset", this.render, this);
+        // agrupamos las aplicaciones en categorias
+        this.model.on("add", function(appObj) {
+            // actualizar las categorias
+            // this.categoryGroups = app.AppList.groupedApps();
+            // ^ no funciona. append <-
+            self.$el.append(new app.AppListItemView({
+                model: appObj
+            }).render().el);
+        });
+    },
 
-render:function () {
-    this.$el.empty();
+    render: function() {
+        this.$el.empty();
         /*
         var categoryGroups = app.AppList.groupBy(function(appObj) {
             return appObj.get("category");
         });*/
-        _.each(this.categoryGroups, function (appCategory, key) {
+        _.each(this.categoryGroups, function(appCategory, key) {
             /*
             // escribimos la categoria
             console.log(key);
@@ -46,16 +48,16 @@ render:function () {
 });
 app.AppListItemView = Backbone.View.extend({
     className: 'col-md-4',
-   initialize:function () {
+    initialize: function() {
 
-   },
-   render:function () {
-    var data = _.clone(this.model.attributes);
-    data.description = data.description.substring(0,200) + '...';
-    data.id = this.model.id;
-    this.$el.html(this.template(data));
-    return this;
-}
+    },
+    render: function() {
+        var data = _.clone(this.model.attributes);
+        data.description = data.description.substring(0, 200) + '...';
+        data.id = this.model.id;
+        this.$el.html(this.template(data));
+        return this;
+    }
 });
 
 app.AppListGroupView = Backbone.View.extend({
@@ -63,16 +65,21 @@ app.AppListGroupView = Backbone.View.extend({
     className: 'well well-sm row',
     categoryName: "",
     categoryGroup: [],
-    initialize: function (categoryName, categoryGroup) {
+    initialize: function(categoryName, categoryGroup) {
         this.categoryName = categoryName;
         this.categoryGroup = categoryGroup;
     },
-    render: function () {
+    render: function() {
         var applistHTML = "";
         _.each(this.categoryGroup, function(appObj) {
-            applistHTML += (new app.AppListItemView({model: appObj}).render().el.outerHTML);
+            applistHTML += (new app.AppListItemView({
+                model: appObj
+            }).render().el.outerHTML);
         });
-        $(this.el).html(this.template({name: this.categoryName, apps: applistHTML}));
+        $(this.el).html(this.template({
+            name: this.categoryName,
+            apps: applistHTML
+        }));
         return this;
     }
 })

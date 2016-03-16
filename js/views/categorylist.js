@@ -1,15 +1,15 @@
 app.CategoryListItemView = Backbone.View.extend({
 
- className:'col-md-4',
+    className: 'col-md-4',
 
-    initialize:function () {
+    initialize: function() {
         this.model.on("change", this.render, this);
         this.model.on("destroy", this.close, this);
     },
 
-    render:function () {
+    render: function() {
         var data = _.clone(this.model.attributes);
-        data.id = this.model.id;   
+        data.id = this.model.id;
         this.$el.html(this.template(data));
         return this;
     }
@@ -17,20 +17,24 @@ app.CategoryListItemView = Backbone.View.extend({
 });
 app.CategoryListView = Backbone.View.extend({
 
-   className:'row',
+    className: 'row',
 
-    initialize:function () {
+    initialize: function() {
         var self = this;
         this.model.on("reset", this.render, this);
-        this.model.on("add", function (categoryItem) {
-            self.$el.append(new app.CategoryListItemView({model:categoryItem}).render().el);
+        this.model.on("add", function(categoryItem) {
+            self.$el.append(new app.CategoryListItemView({
+                model: categoryItem
+            }).render().el);
         });
     },
 
-    render:function () {
+    render: function() {
         this.$el.empty();
-        _.each(this.model.models, function (categoryItem) {
-            this.$el.append(new app.CategoryListItemView({model:categoryItem}).render().el);
+        _.each(this.model.models, function(categoryItem) {
+            this.$el.append(new app.CategoryListItemView({
+                model: categoryItem
+            }).render().el);
         }, this);
         return this;
     }

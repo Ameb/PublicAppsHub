@@ -1,19 +1,21 @@
 app.HeaderView = Backbone.View.extend({
 
-    initialize: function () {
+    initialize: function() {
         this.render();
     },
 
-    render: function () {
+    render: function() {
         var aux = "";
-        _.each(app.AppList.listCategories() , function (name) {
+        _.each(app.AppList.listCategories(), function(name) {
             aux += (new app.HeaderCategoryMenuItemView(name).render().el.outerHTML);
         });
-        $(this.el).html(this.template({categories: aux}));
+        $(this.el).html(this.template({
+            categories: aux
+        }));
         return this;
     },
 
-    selectMenuItem: function (menuItem) {
+    selectMenuItem: function(menuItem) {
         $('.nav li').removeClass('active');
         if (menuItem) {
             $('.' + menuItem).addClass('active');
@@ -24,11 +26,13 @@ app.HeaderView = Backbone.View.extend({
 
 app.HeaderCategoryMenuItemView = Backbone.View.extend({
     el: 'li',
-    initialize:function (name) {
+    initialize: function(name) {
         this.categoryName = name;
     },
-    render: function () {
-        this.$el.html(this.template({category: this.categoryName}));
+    render: function() {
+        this.$el.html(this.template({
+            category: this.categoryName
+        }));
         return this;
     }
 })
