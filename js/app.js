@@ -103,21 +103,12 @@ app.Router = Backbone.Router.extend({
         }).render().el);
       }
     });
-    app.theHeaderView.selectMenuItem('all-CartItems-menu');
+    app.theHeaderView.selectMenuItem('');
   },
 
   showAppform: function() {
-      //completa esta función
-    var p = app.AppList.get(id);
-    p.attributes.quantity--;
-    var ci = new app.CartItem();
-    ci.attributes.AppId = id;
-    app.allCartItems.create(ci);
-    // guardamos
-    ci.save();
-    p.save();
-    this.showAllCartItems();
-
+    //this.$content.html(app.newAppFormView.el);
+    app.theHeaderView.selectMenuItem('newapp');
   },
 
   addAppToCart: function(id) {
@@ -139,7 +130,7 @@ app.Router = Backbone.Router.extend({
       this.aboutView = new app.AboutView();
     }
     this.$content.html(this.aboutView.el);
-    app.theHeaderView.selectMenuItem('about-menu');
+    app.theHeaderView.selectMenuItem('about');
   }
 
 });
