@@ -7,8 +7,11 @@ app.HeaderView = Backbone.View.extend({
     render: function() {
         var aux = "";
         _.each(app.AppList.listCategories(), function(name) {
-            aux += (new app.HeaderCategoryMenuItemView(name).render().el.outerHTML);
+            aux += '<li class="bar"><a href="#cat/'+name+'">'+name+'</a></li>';
+            // lo siguiente le pone la clase 'newapp' a los li.
+            // aux += (new app.HeaderCategoryMenuItemView(name).render().el.outerHTML);
         });
+        console.log(aux);
         $(this.el).html(this.template({
             categories: aux
         }));
@@ -26,6 +29,7 @@ app.HeaderView = Backbone.View.extend({
 
 app.HeaderCategoryMenuItemView = Backbone.View.extend({
     el: 'li',
+    className: 'bar',
     initialize: function(name) {
         this.categoryName = name;
     },

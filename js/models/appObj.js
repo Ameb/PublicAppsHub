@@ -4,7 +4,6 @@ app.AppObj = Backbone.Model.extend({
 
     initialize: function() {},
 
-
     defaults: {
 
         name: '',
@@ -12,7 +11,6 @@ app.AppObj = Backbone.Model.extend({
         images: [],
         category: 'Sin Categoría'
     }
-
 });
 
 app.AppCollection = Backbone.Collection.extend({

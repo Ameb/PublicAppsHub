@@ -36,16 +36,19 @@ app.Router = Backbone.Router.extend({
   },
 
   initialize: function() {
-    app.AppList = new app.AppCollection();
-    app.theHeaderView = new app.HeaderView();
-    $('.header').html(app.theHeaderView.el);
+    app.theHeaderView.render();
     this.$content = $("#content");
+    $('.header').html(app.theHeaderView.el);
+    this.showAppList();
   },
-
-  showAppList: function() {
+  onuse: function() {
+    // Esta funcion se llama siempre que se ejecute alguna de las otras
+    console.log('onuse');
     app.AppList.fetch({
       reset: true
     });
+  },
+  showAppList: function() {
     this.$content.html(new app.AppListView({
       model: app.AppList
     }).render().el);
@@ -61,6 +64,9 @@ app.Router = Backbone.Router.extend({
     app.theHeaderView.selectMenuItem('');
   },
   detallesApp: function(id) {
+    app.AppList.fetch({
+      reset: true
+    });
     var App = app.AppList.get(id);
     var self = this;
     App.fetch({
@@ -73,58 +79,32 @@ app.Router = Backbone.Router.extend({
     });
     app.theHeaderView.selectMenuItem('');
   },
-
-  showAllCartItems: function() {
-
-    if (!app.aCartItemListView) {
-      app.allCartItems.fetch();
-      app.aCartItemListView = new app.CartItemListView({
-        model: app.allCartItems
-      });
-    } else {
-      app.aCartItemListView.delegateEvents();
-    }
-    app.aCartItemListView.render();
-    this.$content.html(app.aCartItemListView.el);
-    app.theHeaderView.selectMenuItem('all-CartItems-menu');
-  },
-
-  detallesCartItem: function(id) {
-    //    var cartItem = new app.CartItem({id: id});
-    var cartItem = app.allCartItems.get(id);
-    var self = this;
-    cartItem.fetch({
-      success: function(data) {
-        console.log(data);
-        // Note that we could also 'recycle' the same instance of AppFullView
-        // instead of creating new instances
-        self.$content.html(new app.CartItemView({
-          model: data
-        }).render().el);
+  showAppform: function() {
+    this.$content.html('<div id="form" class="form-group"></div>');
+    var newApp = new app.AppObj();
+    var AppForm = new Backform.Form({
+      el: $("#form"),
+      model: newApp,
+      fields: app.AppFields(newApp), // Will get converted to a collection of Backbone.Field models
+      events: {
+        "submit": function(e) {
+          e.preventDefault();
+          this.model.save()
+          .done(function(result) {
+            alert("Successful!");
+          })
+          .fail(function(error) {
+            alert(error);
+          });
+          return false;
+        }
       }
     });
-    app.theHeaderView.selectMenuItem('');
-  },
-
-  showAppform: function() {
-    //this.$content.html(app.newAppFormView.el);
+    AppForm.render();
+    $('.form-control').attr('rows', 12);
+    console.log(newApp);
     app.theHeaderView.selectMenuItem('newapp');
   },
-
-  addAppToCart: function(id) {
-    //completa esta función
-    var p = app.AppList.get(id);
-    p.attributes.quantity--;
-    var ci = new app.CartItem();
-    ci.attributes.AppId = id;
-    app.allCartItems.create(ci);
-    // guardamos
-    ci.save();
-    p.save();
-    this.showAllCartItems();
-
-  },
-
   about: function() {
     if (!this.aboutView) {
       this.aboutView = new app.AboutView();
@@ -137,13 +117,23 @@ app.Router = Backbone.Router.extend({
 
 
 $(document).on("ready", function() {
-
-  app.loadTemplates(["AboutView", "HeaderView", "AppView", "HeaderCategoryMenuItemView",
+  app.AppList = new app.AppCollection();
+  app.AppList.fetch().done(function() {
+    app.loadTemplates(["AboutView", "HeaderView", "AppView", "HeaderCategoryMenuItemView",
       "AppListItemView", "CategoryListView", "AppListGroupView"
-    ],
-    function() {
-      app.router = new app.Router();
-      Backbone.history.start();
-      app.theHeaderView.render();
-    });
+      ],
+      function() {
+        app.theHeaderView = new app.HeaderView();
+        Backbone.history.start();
+        app.router = new app.Router();
+      });
+  });
+  $(document).click(function(event) {
+    var clickover = $(event.target);
+    var _opened = $(".navbar-collapse").hasClass("collapse in");
+    console.log(_opened);
+    if (_opened === true && !clickover.hasClass("navbar-toggle")) {
+      $("button.navbar-toggle").click();
+    }
+  });
 });
