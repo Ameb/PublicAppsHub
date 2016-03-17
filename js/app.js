@@ -31,7 +31,7 @@ app.Router = Backbone.Router.extend({
     "Apps/:id": "detallesApp",
     "cat/:categoryName": "showAppCategoryList",
     "newApp": "showAppform",
-    "addAppToCart/:id": "addAppToCart",
+    "reset": "reloadData",
     "about": "about"
   },
   initialize: function() {
@@ -112,12 +112,12 @@ app.Router = Backbone.Router.extend({
     $('#form').submit(function(e) {
       e.preventDefault();
       var data = $('#form').serializeArray();
-      newApp.set('name',data[0].value);
-      newApp.set('description',data[1].value);
+      newApp.set('name', data[0].value);
+      newApp.set('description', data[1].value);
       if (data[3].value == '') {
-        newApp.set('category',data[2].value.match(/^"?([^"]*)"?$/)[1]);
+        newApp.set('category', data[2].value.match(/^"?([^"]*)"?$/)[1]);
       } else {
-        newApp.set('category',data[3].value.match(/^"?([^"]*)"?$/)[1]);
+        newApp.set('category', data[3].value.match(/^"?([^"]*)"?$/)[1]);
       }
       app.AppList.create(newApp);
       AppForm.render();
@@ -131,6 +131,52 @@ app.Router = Backbone.Router.extend({
     }
     this.$content.html(this.aboutView.el);
     app.theHeaderView.selectMenuItem('about');
+  },
+  reloadData: function() {
+    console.log('da');
+    // reset y carga de datos
+    app.AppList.localStorage._clear(null);
+    app.AppList.create(new app.AppObj({
+      'name': 'Tu Villavesa',
+      'category': 'Transporte'
+    }));
+    app.AppList.create(new app.AppObj({
+      'name': 'Provincial',
+      'category': 'Transporte'
+    }));
+    app.AppList.create(new app.AppObj({
+      'name': 'Taxi App',
+      'category': 'Transporte'
+    }));
+    app.AppList.create(new app.AppObj({
+      'name': 'Medico de guardia',
+      'category': 'Salud'
+    }));
+    app.AppList.create(new app.AppObj({
+      'name': 'Farmacias',
+      'category': 'Salud'
+    }));
+    app.AppList.create(new app.AppObj({
+      'name': 'CinfaPlus',
+      'category': 'Salud'
+    }));
+    app.AppList.create(new app.AppObj({
+      'name': 'El numero Pi',
+      'category': 'Apps Educativas'
+    }));
+    app.AppList.create(new app.AppObj({
+      'name': 'WikiApp',
+      'category': 'Apps Educativas'
+    }));
+    app.AppList.create(new app.AppObj({
+      'name': 'Sabias Que',
+      'category': 'Apps Educativas'
+    }));
+    app.AppList.create(new app.AppObj({
+      'name': 'Otra App',
+      'category': 'Otra Categoria'
+    }));
+    this.navigate("",true);
   }
 
 });

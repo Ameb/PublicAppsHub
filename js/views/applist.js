@@ -49,7 +49,6 @@ app.AppListView = Backbone.View.extend({
 app.AppListItemView = Backbone.View.extend({
     className: 'col-md-4',
     initialize: function() {
-
     },
     render: function() {
         var data = _.clone(this.model.attributes);
