@@ -11,7 +11,6 @@ app.HeaderView = Backbone.View.extend({
             // lo siguiente le pone la clase 'newapp' a los li.
             // aux += (new app.HeaderCategoryMenuItemView(name).render().el.outerHTML);
         });
-        console.log(aux);
         $(this.el).html(this.template({
             categories: aux
         }));

@@ -39,7 +39,7 @@ app.Router = Backbone.Router.extend({
     app.theHeaderView.render();
     this.$content = $("#content");
     $('.header').html(app.theHeaderView.el);
-    this.showAppList();
+    Backbone.history.loadUrl(Backbone.history.fragment);
   },
   showAppList: function() {
     this.$content.html(new app.AppListView({
@@ -77,10 +77,12 @@ app.Router = Backbone.Router.extend({
     var newApp = new app.AppObj();
     var AppForm = new Backform.Form({
       el: $("#form"),
+      tagName: 'form', //no sirve
       model: newApp,
       fields: app.AppFields(newApp), // Will get converted to a collection of Backbone.Field models
       events: {
         "submit": function(e) {
+          console.log('guardando');
           e.preventDefault();
           this.model.save()
             .done(function(result) {
@@ -94,8 +96,33 @@ app.Router = Backbone.Router.extend({
       }
     });
     AppForm.render();
-    $('.form-control').attr('rows', 12);
-    console.log(newApp);
+    $('.textarea-big').attr('rows', 12);
+    // desconozco por que e formulario se guarda como <div id=form...
+    // esto es un apaño
+    $('#form').replaceWith('<form id="form" class="form-group">' + $('#form').html() + '</form>');
+    $('select[name="category"]').on('change', function() {
+      var sel = $('.form-group .new_category');
+      if (this.value == 'null') {
+        sel.removeClass('hidden');
+      } else {
+        sel.addClass('hidden');
+        $('input[name="new_category"]').val('');
+      }
+    });
+    $('#form').submit(function(e) {
+      e.preventDefault();
+      var data = $('#form').serializeArray();
+      newApp.set('name',data[0].value);
+      newApp.set('description',data[1].value);
+      if (data[3].value == '') {
+        newApp.set('category',data[2].value.match(/^"?([^"]*)"?$/)[1]);
+      } else {
+        newApp.set('category',data[3].value.match(/^"?([^"]*)"?$/)[1]);
+      }
+      app.AppList.create(newApp);
+      AppForm.render();
+      return false;
+    });
     app.theHeaderView.selectMenuItem('newapp');
   },
   about: function() {
@@ -125,7 +152,6 @@ $(document).on("ready", function() {
   $(document).click(function(event) {
     var clickover = $(event.target);
     var _opened = $(".navbar-collapse").hasClass("collapse in");
-    console.log(_opened);
     if (_opened === true && !clickover.hasClass("navbar-toggle")) {
       $("button.navbar-toggle").click();
     }
