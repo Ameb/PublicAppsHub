@@ -33,5 +33,4 @@ app.AppCollection = Backbone.Collection.extend({
             return a.get('category')
         });
     }
-
 });

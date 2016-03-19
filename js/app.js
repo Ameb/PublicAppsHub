@@ -28,7 +28,7 @@ app.Router = Backbone.Router.extend({
 
   routes: {
     "": "showAppList",
-    "Apps/:id": "detallesApp",
+    "app/:id": "detallesApp",
     "cat/:categoryName": "showAppCategoryList",
     "newApp": "showAppform",
     "reset": "reloadData",
@@ -48,28 +48,15 @@ app.Router = Backbone.Router.extend({
     app.theHeaderView.selectMenuItem('');
   },
   showAppCategoryList: function(categoryName) {
-    app.AppList.fetch({
-      reset: true
-    });
     this.$content.html(new app.AppListGroupView(
       //console.log(app.AppList.groupedApps()[categoryName]);
       categoryName, app.AppList.groupedApps()[categoryName]).render().el);
     app.theHeaderView.selectMenuItem('');
   },
   detallesApp: function(id) {
-    app.AppList.fetch({
-      reset: true
-    });
-    var App = app.AppList.get(id);
-    var self = this;
-    App.fetch({
-      success: function(data) {
-        console.log(data);
-        self.$content.html(new app.AppView({
-          model: data
-        }).render().el);
-      }
-    });
+    this.$content.html(new app.AppDetailsView({
+      model: app.AppList.get(id)
+    }).render().el);
     app.theHeaderView.selectMenuItem('');
   },
   showAppform: function() {
@@ -187,7 +174,7 @@ $(document).on("ready", function() {
   app.AppList = new app.AppCollection();
   app.AppList.fetch().done(function() {
     app.loadTemplates(["AboutView", "HeaderView", "AppView", "HeaderCategoryMenuItemView",
-        "AppListItemView", "AppListGroupView"
+        "AppListItemView", "AppListGroupView","AppDetailsView"
       ],
       function() {
         app.theHeaderView = new app.HeaderView();

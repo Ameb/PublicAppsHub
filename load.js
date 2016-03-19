@@ -35,3 +35,51 @@ var testApp2 = new app.AppObj({
 
 // borrar
 // app.AppList.localStorage._clear(null)
+    var newApp = new app.AppObj();
+    var AppForm = new Backform.Form({
+      el: $("#form"),
+      tagName:'form', //no sirve
+      model: newApp,
+      fields: app.AppFields(newApp), // Will get converted to a collection of Backbone.Field models
+      events: {
+        "submit": function(e) {
+          console.log('guardando');
+          e.preventDefault();
+          this.model.save()
+            .done(function(result) {
+              alert("Successful!");
+            })
+            .fail(function(error) {
+              alert(error);
+            });
+          return false;
+        }
+      }
+    });
+    AppForm.render();
+    $('.textarea-big').attr('rows', 12);
+    // desconozco por que e formulario se guarda como <div id=form...
+    // esto es un apaño
+    $('#form').replaceWith('<form id="form" class="form-group">' + $('#form').html() + '</form>');
+    $('#form').submit(function(e) {
+      e.preventDefault();
+      app.AppList.create(AppForm.model);
+      console.log(AppForm.model);
+      return false;
+    });
+
+    var visibletest = function() {
+            var data = $('#form').serializeArray();
+            if (data != []) {
+                return _.where(data, {name: 'category'})[0].value == "Nueva Categoria";
+            }
+        };
+$('select[name="category"]').on('change', function(){
+  console.log(this.value);
+  if (this.value == 'null') {
+    $('.form-group .new_category').removeClass('hidden');
+  }
+  else {
+    $('.form-group .new_category').addClass('hidden');
+  }
+});
