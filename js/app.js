@@ -66,14 +66,14 @@ app.Router = Backbone.Router.extend({
       model: newApp,
       submitButton: 'Enviar'
     })
-    console.log(form)
     form.render();
     form.on('category:change', function(form, catEditor) {
       var v = catEditor.getValue();
-      console.log(v);
       if (v == '') {
+        form.getEditor('new_category').setValue();
         $('.field-new_category').show();
       } else {
+        form.getEditor('new_category').setValue(v);
         $('.field-new_category').hide();
       }
     })
@@ -83,7 +83,14 @@ app.Router = Backbone.Router.extend({
       var data = (this.$el.serializeArray());
       newApp.set('name', data[0].value);
       newApp.set('description', data[1].value);
-      newApp.set('category', data[2].value);
+      newApp.set('category', data[3].value);
+      // las imagenes por separado
+      var listai = [];
+      _.forEach($('.ellipsis[name=images] div'), function(item) {
+        listai.push(item.innerHTML);
+      })
+      newApp.set('images', listai);
+      console.log(newApp);
       app.AppList.create(newApp);
       //newApp.set('description', data[1].value);
     });
@@ -140,7 +147,6 @@ app.Router = Backbone.Router.extend({
     app.theHeaderView.selectMenuItem('about');
   },
   reloadData: function() {
-    console.log('da');
     // reset y carga de datos
     app.AppList.localStorage._clear(null);
     app.AppList.create(new app.AppObj({
