@@ -1,4 +1,5 @@
-var tem = _.template('<div><input id="inputFileToLoad" type="file" onchange="app.encodeImageFileAsURL();" />\
+var tem = _.template('<div><p>Inserta aqui la imagen. La convertimos a base64 (string) y la guardamos como tal</p>\
+    <input id="inputFileToLoad" type="file" onchange="app.encodeImageFileAsURL();" />\
     <br><div class="output "><textarea id= "b64ta" class="form-control"></textarea><br>\
     <img class="img-responsive"></div>\
     <script>\
@@ -11,6 +12,10 @@ var tem = _.template('<div><input id="inputFileToLoad" type="file" onchange="app
 app.successFormDiv = '<div class="alert alert-success fade in">\
     <a href="#" class="close" data-dismiss="alert">&times;</a>\
     <strong>Bien!</strong> La app se ha guardado satisfactoriamente.\
+</div>';
+app.failFormDiv = '<div class="alert alert-info fade in">\
+    <a href="#" class="close" data-dismiss="alert">&times;</a>\
+    <strong>Formulario incompleto</strong> Por favor, revísalo.\
 </div>';
 app.encodeImageFileAsURL = function encodeImageFileAsURL(cb) {
   return function() {

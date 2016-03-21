@@ -46,6 +46,10 @@ app.Router = Backbone.Router.extend({
             model: app.AppList
         }).render().el);
         app.theHeaderView.selectMenuItem('');
+        if (app.AppList.isEmpty()){
+            this.$content.html('<div class="well"> <strong>Parece que no hay datos!</strong><br>Puedes usar la opción\
+             de Reset del menú para cargar unos datos de Demo</div>');
+        }
     },
     showAppCategoryList: function(categoryName) {
         this.$content.html(new app.AppListGroupView(
@@ -68,7 +72,7 @@ app.Router = Backbone.Router.extend({
             schema: app.AppFormSchema
         });
         form.render();
-        // establecer caegoria por defecto
+        // establecer categoria por defecto
         form.getEditor('new_category').setValue(form.getEditor('category').value);
         form.on('category:change', function(form, catEditor) {
             var v = catEditor.getValue();
@@ -85,7 +89,10 @@ app.Router = Backbone.Router.extend({
             // validar
             var errors = form.validate();
             if (errors) {
-                console.log('No se guardó.');
+                $('#content').prepend(app.failFormDiv);
+                    $('.alert-info').fadeTo(2000,500).slideUp(500, function() {
+                        $('.alert-info').alert('close');
+                    });
             } else {
                 // guardar el modelo
                 var data = (this.$el.serializeArray());
@@ -98,56 +105,12 @@ app.Router = Backbone.Router.extend({
                     listai.push(item.innerHTML);
                 })
                 newApp.set('images', listai);
-                console.log(newApp);
                 app.AppList.create(newApp);
                 app.router.detallesApp(newApp.attributes.id);
                 $('#content').prepend(app.successFormDiv);
             }
         });
         this.$content.html(form.el);
-        /*
-        var AppForm = new Backform.Form({
-          el: $("#form"),
-          tagName: 'form', //no sirve
-          model: newApp,
-          fields: app.AppFields(newApp), // Will get converted to a collection of Backbone.Field models
-          events: {
-            "submit": function(e) {
-              console.log('guardando');
-              e.preventDefault();
-              this.model.save()
-                .done(function(result) {
-                  alert("Successful!");
-                })
-                .fail(function(error) {
-                  alert(error);
-                });
-              return false;
-            }
-          }
-        });
-        AppForm.render();
-        $('.textarea-big').attr('rows', 12);
-        // desconozco por que e formulario se guarda como <div id=form...
-        // esto es un apaño
-        $('#form').replaceWith('<form id="form" class="form-group">' + $('#form').html() + '</form>');
-
-        $('#form').submit(function(e) {
-          e.preventDefault();
-          var data = $('#form').serializeArray();
-          newApp.set('name', data[0].value);
-          newApp.set('description', data[1].value);
-          if (data[3].value == '') {
-            newApp.set('category', data[2].value.match(/^"?([^"]*)"?$/)[1]);
-          } else {
-            newApp.set('category', data[3].value.match(/^"?([^"]*)"?$/)[1]);
-          }
-          app.AppList.create(newApp);
-          AppForm.render();
-          return false;
-        });
-        app.theHeaderView.selectMenuItem('newapp');
-        */
     },
     about: function() {
         if (!this.aboutView) {
@@ -162,7 +125,9 @@ app.Router = Backbone.Router.extend({
             app.AppList.localStorage._clear(null);
             app.AppList.create(new app.AppObj({
                 'name': 'Tu Villavesa',
-                'category': 'Transporte'
+                'category': 'Transporte',
+                'description': 'A esta aplicación le hemos puesto imágenes a modo de Demo',
+                'images': app.TuVillavesaImgs
             }));
             app.AppList.create(new app.AppObj({
                 'name': 'Provincial',

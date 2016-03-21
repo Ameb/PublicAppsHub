@@ -52,7 +52,7 @@ app.AppListItemView = Backbone.View.extend({
     },
     render: function() {
         var data = _.clone(this.model.attributes);
-        data.description = data.description.substring(0, 200) + '...';
+        data.description = data.description.substring(0, 400) + '...';
         data.id = this.model.id;
         this.$el.html(this.template(data));
         return this;
