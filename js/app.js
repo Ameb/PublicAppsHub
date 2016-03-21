@@ -199,7 +199,7 @@ $(document).on("ready", function() {
   // No se iniciazila nada hasta que no se han cargado los datos y las plantillas
   app.AppList = new app.AppCollection();
   app.AppList.fetch().done(function() {
-    app.loadTemplates(["AboutView", "HeaderView", "AppView", "HeaderCategoryMenuItemView",
+    app.loadTemplates(["AboutView", "HeaderView", "HeaderCategoryMenuItemView",
         "AppListItemView", "AppListGroupView", "AppDetailsView"
       ],
       function() {
