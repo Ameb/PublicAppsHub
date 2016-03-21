@@ -64,9 +64,11 @@ app.Router = Backbone.Router.extend({
     var newApp = new app.AppObj();
     var form = new Backbone.Form({
       model: newApp,
-      submitButton: 'Enviar'
-    })
+      submitButton: 'Guardar'
+    });
     form.render();
+    // establecer caegoria por defecto
+    form.getEditor('new_category').setValue(form.getEditor('category').value);
     form.on('category:change', function(form, catEditor) {
       var v = catEditor.getValue();
       if (v == '') {
@@ -79,20 +81,26 @@ app.Router = Backbone.Router.extend({
     })
     form.on('submit', function(e) {
       e.preventDefault();
-      // guardar el modelo
-      var data = (this.$el.serializeArray());
-      newApp.set('name', data[0].value);
-      newApp.set('description', data[1].value);
-      newApp.set('category', data[3].value);
-      // las imagenes por separado
-      var listai = [];
-      _.forEach($('.ellipsis[name=images] div'), function(item) {
-        listai.push(item.innerHTML);
-      })
-      newApp.set('images', listai);
-      console.log(newApp);
-      app.AppList.create(newApp);
-      //newApp.set('description', data[1].value);
+      // validar
+      var errors = form.validate();
+      if (errors) {
+        console.log('No se guardó.');
+      } else {
+        // guardar el modelo
+        var data = (this.$el.serializeArray());
+        newApp.set('name', data[0].value);
+        newApp.set('description', data[1].value);
+        newApp.set('category', data[3].value);
+        // las imagenes por separado
+        var listai = [];
+        _.forEach($('.ellipsis[name=images] div'), function(item) {
+          listai.push(item.innerHTML);
+        })
+        newApp.set('images', listai);
+        console.log(newApp);
+        app.AppList.create(newApp);
+        //Backbone.Router.navigate("", true);
+      }
     });
     this.$content.html(form.el);
     /*

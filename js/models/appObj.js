@@ -19,11 +19,14 @@ app.AppObj = Backbone.Model.extend({
     schema: {
         name: {
             title: 'Nombre de la aplicación',
-            type: 'Text'
+            type: 'Text',
+            validators: ['required']
         },
         description: {
             title: 'Descripción',
-            type: 'Text'
+            type: 'TextArea',
+            editorAttrs: {rows: 15},
+            validators: ['required']
         },
         category: {
             title: 'Categoría',
@@ -48,7 +51,8 @@ app.AppObj = Backbone.Model.extend({
         new_category: {
             title: 'Nombre de la nueva categoría',
             type: 'Text',
-            fieldAttrs: {style: 'display: none'}
+            fieldAttrs: {style: 'display: none'},
+            validators: ['required']
         },
         //category: {type: 'Select', options: []},
         images: {
@@ -61,7 +65,7 @@ app.AppObj = Backbone.Model.extend({
             editorAttrs: {
             },
             itemToString: function() {
-                return $('textarea').val();
+                return $('#b64ta').val();
             },
             subSchema: {
                 image: {
