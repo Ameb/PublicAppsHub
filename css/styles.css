@@ -6,4 +6,11 @@ h2{
     padding-top: 60px;
     padding-bottom: 42px;
   }
+ 
+.ellipsis {
+  text-overflow: ellipsis;
 
+  /* Required for text-overflow to do anything */
+  white-space: nowrap;
+  overflow: hidden;
+}

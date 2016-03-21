@@ -60,8 +60,24 @@ app.Router = Backbone.Router.extend({
     app.theHeaderView.selectMenuItem('');
   },
   showAppform: function() {
-    this.$content.html('<div id="form" class="form-group"></div>');
+    Backbone.Form.editors.List.Modal.ModalAdapter = Backbone.BootstrapModal;
     var newApp = new app.AppObj();
+    var form = new Backbone.Form({
+      model: newApp,
+      submitButton: 'Enviar'
+    })
+    console.log(form)
+    form.render();
+    form.on('submit', function(e) {
+      e.preventDefault();
+      // guardar el modelo
+      console.log(this.$el.serializeArray());
+      console.log(this.Fieldset());
+      console.log(this);
+      //newApp.set('description', data[1].value);
+    });
+    this.$content.html(form.el);
+    /*
     var AppForm = new Backform.Form({
       el: $("#form"),
       tagName: 'form', //no sirve
@@ -111,6 +127,7 @@ app.Router = Backbone.Router.extend({
       return false;
     });
     app.theHeaderView.selectMenuItem('newapp');
+    */
   },
   about: function() {
     if (!this.aboutView) {
@@ -163,7 +180,7 @@ app.Router = Backbone.Router.extend({
       'name': 'Otra App',
       'category': 'Otra Categoria'
     }));
-    this.navigate("",true);
+    this.navigate("", true);
   }
 
 });
@@ -174,7 +191,7 @@ $(document).on("ready", function() {
   app.AppList = new app.AppCollection();
   app.AppList.fetch().done(function() {
     app.loadTemplates(["AboutView", "HeaderView", "AppView", "HeaderCategoryMenuItemView",
-        "AppListItemView", "AppListGroupView","AppDetailsView"
+        "AppListItemView", "AppListGroupView", "AppDetailsView"
       ],
       function() {
         app.theHeaderView = new app.HeaderView();
@@ -190,3 +207,13 @@ $(document).on("ready", function() {
     }
   });
 });
+function encodeImageFileAsURL(cb) {
+    return function(){
+        var file = this.files[0];
+        var reader  = new FileReader();
+        reader.onloadend = function () {
+            cb(reader.result);
+        }
+        reader.readAsDataURL(file);
+    }
+}
