@@ -68,12 +68,23 @@ app.Router = Backbone.Router.extend({
     })
     console.log(form)
     form.render();
+    form.on('category:change', function(form, catEditor) {
+      var v = catEditor.getValue();
+      console.log(v);
+      if (v == '') {
+        $('.field-new_category').show();
+      } else {
+        $('.field-new_category').hide();
+      }
+    })
     form.on('submit', function(e) {
       e.preventDefault();
       // guardar el modelo
-      console.log(this.$el.serializeArray());
-      console.log(this.Fieldset());
-      console.log(this);
+      var data = (this.$el.serializeArray());
+      newApp.set('name', data[0].value);
+      newApp.set('description', data[1].value);
+      newApp.set('category', data[2].value);
+      app.AppList.create(newApp);
       //newApp.set('description', data[1].value);
     });
     this.$content.html(form.el);
@@ -103,15 +114,7 @@ app.Router = Backbone.Router.extend({
     // desconozco por que e formulario se guarda como <div id=form...
     // esto es un apaño
     $('#form').replaceWith('<form id="form" class="form-group">' + $('#form').html() + '</form>');
-    $('select[name="category"]').on('change', function() {
-      var sel = $('.form-group .new_category');
-      if (this.value == 'null') {
-        sel.removeClass('hidden');
-      } else {
-        sel.addClass('hidden');
-        $('input[name="new_category"]').val('');
-      }
-    });
+
     $('#form').submit(function(e) {
       e.preventDefault();
       var data = $('#form').serializeArray();

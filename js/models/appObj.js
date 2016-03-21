@@ -7,13 +7,6 @@ var test = _.template('<div><input id="inputFileToLoad" type="file" onchange="en
     .find("img").attr("src", base64Img);\
     }))</script></div>');
 
-
-    
-var test2 = _.template('\
-        <div class="pull-left" data-editor></div>\
-        <button type="button" class="btn bbf-del" data-action="remove">&times;</button>\
-    ');
-
 app.AppObj = Backbone.Model.extend({
     className: "App",
     initialize: function() {},
@@ -46,20 +39,25 @@ app.AppObj = Backbone.Model.extend({
                     });
                 });
                 list.push({
-                    'val': null,
-                    'label': 'Nueva Categoria (Elegir nombre)'
+                    'val': '',
+                    'label': 'Nueva Categoria (Escribir nombre)'
                 });
                 callback(list);
             }
+        },
+        new_category: {
+            title: 'Nombre de la nueva categoría',
+            type: 'Text',
+            fieldAttrs: {style: 'display: none'}
         },
         //category: {type: 'Select', options: []},
         images: {
             title: 'Imágenes',
             type: 'List',
-            itemType: 'Text',
+            itemType: 'Object',
             editorClass: 'ellipsis',
             //addLabel: '+',
-            template: test,
+            // template: test,
             editorAttrs: {
             },
             itemToString: function() {
