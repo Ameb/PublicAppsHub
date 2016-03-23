@@ -6,47 +6,23 @@ app.AppListView = Backbone.View.extend({
         this.model.on("reset", this.render, this);
         // agrupamos las aplicaciones en categorias
         this.model.on("add", function(appObj) {
-            // actualizar las categorias
-            // this.categoryGroups = app.AppList.groupedApps();
-            // ^ no funciona. append <-
             self.$el.append(new app.AppListItemView({
                 model: appObj
             }).render().el);
         });
     },
-
     render: function() {
         this.$el.empty();
-        /*
-        var categoryGroups = app.AppList.groupBy(function(appObj) {
-            return appObj.get("category");
-        });*/
+        // mostrar la vista de cada categoría
         _.each(this.categoryGroups, function(appCategory, key) {
-            /*
-            // escribimos la categoria
-            console.log(key);
-            this.$el.append('<h1>'+key+'</h1>');
-            // y despues las apps
-            _.each(appCategory, function (appObj) {
-                console.log(appObj);
-                this.$el.append(new app.AppListItemView({model:appObj}).render().el);    
-            }, this);
-            */
-            // en vez de lo anterior, llamamos a la vista de la categoría para que la construya con
-            // categoryGroups.
             this.$el.append(new app.AppListGroupView(key, appCategory).render().el);
         }, this);
         return this;
-        /*
-        _.each(this.model.models, function (appObj) {
-            this.$el.append(new app.AppListItemView({model:appObj}).render().el);
-            console.log(appObj);
-        }, this);
-        return this;
-        */
     }
 });
 app.AppListItemView = Backbone.View.extend({
+    // vista de una aplicación en la lista por categoría
+    // solo muestra los 400 primeros caracteres de la descripción
     className: 'col-md-4',
     initialize: function() {
     },
@@ -60,7 +36,7 @@ app.AppListItemView = Backbone.View.extend({
 });
 
 app.AppListGroupView = Backbone.View.extend({
-    // el: 'div',
+    //vista de una categoría con sus aplicaciones
     className: 'well well-sm row',
     categoryName: "",
     categoryGroup: [],
@@ -69,6 +45,7 @@ app.AppListGroupView = Backbone.View.extend({
         this.categoryGroup = categoryGroup;
     },
     render: function() {
+        // construimos la vista de las aplicaciones de la categoría
         var applistHTML = "";
         _.each(this.categoryGroup, function(appObj) {
             applistHTML += (new app.AppListItemView({

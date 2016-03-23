@@ -1,3 +1,5 @@
+// Contiene lo necesario para construir el formulario de nueva aplicación
+// No es una vista de BB como tal
 var tem = _.template('<div><p>Inserta aqui la imagen. La convertimos a base64 (string) y la guardamos como tal</p>\
     <input id="inputFileToLoad" type="file" onchange="app.encodeImageFileAsURL();" />\
     <br><div class="output "><textarea id= "b64ta" class="form-control"></textarea><br>\
@@ -69,15 +71,12 @@ app.AppFormSchema = {
         },
         validators: ['required']
     },
-    //category: {type: 'Select', options: []},
     images: {
         title: 'Imágenes',
         type: 'List',
         itemType: 'Object',
-        editorClass: 'ellipsis',
-        //addLabel: '+',
-        // template: test,
-        editorAttrs: {},
+        editorClass: ['ellipsis'],
+        editorAttrs: {class: 'form-control ellipsis', disabled:true},
         itemToString: function() {
             return $('#b64ta').val();
         },

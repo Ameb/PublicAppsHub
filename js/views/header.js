@@ -1,9 +1,8 @@
 app.HeaderView = Backbone.View.extend({
-
+    //vista del menu de la aplicación
     initialize: function() {
         this.render();
     },
-
     render: function() {
         var aux = "";
         _.each(app.AppList.listCategories(), function(name) {
@@ -27,6 +26,8 @@ app.HeaderView = Backbone.View.extend({
 })
 
 app.HeaderCategoryMenuItemView = Backbone.View.extend({
+    // vista para mostrar cada categoria en el menu
+    // mucho código para poco html
     el: 'li',
     className: 'bar',
     initialize: function(name) {

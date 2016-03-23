@@ -1,4 +1,5 @@
 app.AppDetailsView = Backbone.View.extend({
+    // vista de la aplicacion con sus detalles e imágenes.
     className: 'col-md-8',
     initialize: function() {
     },

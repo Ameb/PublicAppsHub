@@ -46,7 +46,7 @@ app.Router = Backbone.Router.extend({
             model: app.AppList
         }).render().el);
         app.theHeaderView.selectMenuItem('');
-        if (app.AppList.isEmpty()){
+        if (app.AppList.isEmpty()) {
             this.$content.html('<div class="well"> <strong>Parece que no hay datos!</strong><br>Puedes usar la opción\
              de Reset del menú para cargar unos datos de Demo</div>');
         }
@@ -90,9 +90,9 @@ app.Router = Backbone.Router.extend({
             var errors = form.validate();
             if (errors) {
                 $('#content').prepend(app.failFormDiv);
-                    $('.alert-info').fadeTo(2000,500).slideUp(500, function() {
-                        $('.alert-info').alert('close');
-                    });
+                $('.alert-info').fadeTo(2000, 500).slideUp(500, function() {
+                    $('.alert-info').alert('close');
+                });
             } else {
                 // guardar el modelo
                 var data = (this.$el.serializeArray());
@@ -106,8 +106,13 @@ app.Router = Backbone.Router.extend({
                 })
                 newApp.set('images', listai);
                 app.AppList.create(newApp);
-                app.router.detallesApp(newApp.attributes.id);
+                Backbone.history.navigate('app/' + newApp.attributes.id);
+                Backbone.history.loadUrl('app/' + newApp.attributes.id);
                 $('#content').prepend(app.successFormDiv);
+                $('.alert-success').fadeTo(2000, 500).slideUp(500, function() {
+                    $('.alert-success').alert('close');
+                });
+
             }
         });
         this.$content.html(form.el);
