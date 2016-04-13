@@ -28,11 +28,14 @@ app.Router = Backbone.Router.extend({
 
     routes: {
         "": "showAppList",
-        "app/:id": "detallesApp",
+        "app/:id": "AppDetails",
+        "deploy/:appid/:codeid/:deployid": "DeployDetails",
+        "code/:appid/:codeid": "CodeDetails",
         "cat/:categoryName": "showAppCategoryList",
         "newApp": "showAppform",
         "reset": "reloadData",
         "about": "about"
+
     },
     initialize: function() {
         // incializa el header y el contenido. Muestra la lista de apps
@@ -57,11 +60,18 @@ app.Router = Backbone.Router.extend({
             categoryName, app.AppList.groupedApps()[categoryName]).render().el);
         app.theHeaderView.selectMenuItem('');
     },
-    detallesApp: function(id) {
+    AppDetails: function(id) {
         this.$content.html(new app.AppDetailsView({
             model: app.AppList.get(id)
         }).render().el);
         app.theHeaderView.selectMenuItem('');
+    },
+    DeployDetails: function(appid,codeid,deployid) {
+
+    },
+    CodeDetails: function(appid, codeid) {
+        console.log('app: '+appid+'\tcode: '+codeid);
+        console.log(app.AppList.get(appid).implementations.get(codeid));
     },
     showAppform: function() {
         Backbone.Form.editors.List.Modal.ModalAdapter = Backbone.BootstrapModal;
