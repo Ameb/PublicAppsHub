@@ -72,6 +72,41 @@ app.Router = Backbone.Router.extend({
     CodeDetails: function(appid, codeid) {
         console.log('app: '+appid+'\tcode: '+codeid);
         console.log(app.AppList.get(appid).implementations.get(codeid));
+        var model = app.AppList.get(appid).implementations.get(codeid);
+        var form = new Backbone.Form({
+            model: model,
+            submitButton: 'Guardar',
+            schema: {
+                name:       {type: 'Text', title: 'Nombre'},
+                codeurl:    {type: 'Text', title: 'URL'},
+                author:    {type: 'Text', title: 'Autor'},
+                platforms:      { type: 'List', itemType: 'Text', title: 'Plataformas' }
+            }
+        }).render();
+        form.on('submit', function(e) {
+            e.preventDefault();
+            // validar
+            var errors = form.validate();
+            if (errors) {
+                $('#content').prepend(app.failFormDiv);
+                $('.alert-info').fadeTo(2000, 500).slideUp(500, function() {
+                    $('.alert-info').alert('close');
+                });
+            } else {
+                // guardar el modelo
+                form.commit();
+                model.save();
+                Backbone.history.navigate('app/' + appid);
+                Backbone.history.loadUrl('app/' + appid);
+                $('.implementation').first().prepend(app.successFormDiv);
+                $('.alert-success').fadeTo(2000, 500).slideUp(500, function() {
+                    $('.alert-success').alert('close');
+                });
+                $('.alert-success').get(0).scrollIntoView();
+                window.scrollBy(0,-100);
+            }
+        });
+        this.$content.html(form.el);
     },
     showAppform: function() {
         Backbone.Form.editors.List.Modal.ModalAdapter = Backbone.BootstrapModal;

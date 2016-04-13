@@ -13,7 +13,7 @@ var tem = _.template('<div><p>Inserta aqui la imagen. La convertimos a base64 (s
 </div>');
 app.successFormDiv = '<div class="alert alert-success fade in">\
     <a href="#" class="close" data-dismiss="alert">&times;</a>\
-    <strong>Bien!</strong> La app se ha guardado satisfactoriamente.\
+    <strong>Bien!</strong> Guardado satisfactoriamente.\
 </div>';
 app.failFormDiv = '<div class="alert alert-info fade in">\
     <a href="#" class="close" data-dismiss="alert">&times;</a>\
