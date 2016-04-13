@@ -16,6 +16,7 @@ app.AppDetailsView = Backbone.View.extend({
         var codeHTML = "";
         _.forEach(this.model.implementations, function(code) {
             // generar la vista de implementacion
+            console.log(code);
             codeHTML += "implementacion - " + code.name;
         });
         if (codeHTML == "") {
