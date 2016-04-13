@@ -5,17 +5,51 @@ app.AppDetailsView = Backbone.View.extend({
     },
     render: function() {
         var data = _.clone(this.model.attributes);
-        data.description = data.description;
-        data.id = this.model.id;
-        img = "";
+        var imgHTML = "";
         _.forEach(data.images, function(imgsrc) {
-            img += ('<img class="img-responsive" src="'+imgsrc+'"><br>');
+            imgHTML += ('<img class="img-responsive" src="'+imgsrc+'"><br>');
         });
-        if (img == "") {
-            img = "Esta aplicacion no tiene ninguna imagen.";
+        if (imgHTML == "") {
+            imgHTML = "Esta aplicacion no tiene ninguna imagen.";
         }
-        data.images = img;
+        data.images = imgHTML;
+        var codeHTML = "";
+        _.forEach(data.images, function(imgsrc) {
+            codeHTML += ('<img class="img-responsive" src="'+imgsrc+'"><br>');
+        });
+        if (codeHTML == "") {
+            codeHTML = "Esta aplicacion no tiene ninguna imagen.";
+        }
         this.$el.html(this.template(data));
         return this;
     }
 });
+/*
+app.AppCodeView = Backbone.View.extend({
+    className: 'col-md-8',
+    initialize: function() {
+    },
+    render: function() {
+        var data = _.clone(this.model.attributes);
+        data.description = data.description;
+        data.id = this.model.id;
+        var imgHTML = "";
+        _.forEach(data.images, function(imgsrc) {
+            imgHTML += ('<img class="img-responsive" src="'+imgsrc+'"><br>');
+        });
+        if (imgHTML == "") {
+            imgHTML = "Esta aplicacion no tiene ninguna imagen.";
+        }
+        data.images = imgHTML;
+        var codeHTML = "";
+        _.forEach(data.images, function(imgsrc) {
+            imgHTML += ('<img class="img-responsive" src="'+imgsrc+'"><br>');
+        });
+        if (imgHTML == "") {
+            imgHTML = "Esta aplicacion no tiene ninguna imagen.";
+        }
+        this.$el.html(this.template(data));
+        return this;
+    }
+});
+*/
