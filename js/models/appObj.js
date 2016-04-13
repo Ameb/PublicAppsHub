@@ -30,11 +30,8 @@ app.Deploy = Backbone.Model.extend({
 app.AppObj = Backbone.Model.extend({
     className: "App",
     initialize: function() {
-    },    
-    initializeCollection: function() {
-        //para cada app necesitamos almacenar su coleccion en un local-storage unico
         this.implementations = new (Backbone.Collection.extend({
-            localStorage: new Backbone.LocalStorage(this.name)
+            localStorage: new Backbone.LocalStorage(this.cid)
         }))()
         this.implementations.fetch()
     },
