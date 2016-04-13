@@ -14,12 +14,14 @@ app.AppDetailsView = Backbone.View.extend({
         }
         data.images = imgHTML;
         var codeHTML = "";
-        _.forEach(data.images, function(imgsrc) {
-            codeHTML += ('<img class="img-responsive" src="'+imgsrc+'"><br>');
+        _.forEach(data.images, function(code) {
+            // generar la vista de implementacion
+            codeHTML += "implementacion - " + code.name;
         });
         if (codeHTML == "") {
-            codeHTML = "Esta aplicacion no tiene ninguna imagen.";
+            codeHTML = "Esta aplicacion no tiene ninguna implementación.";
         }
+        data.implementations = codeHTML;
         this.$el.html(this.template(data));
         return this;
         
