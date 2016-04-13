@@ -182,7 +182,7 @@ $(document).on("ready", function() {
     app.AppList = new app.AppCollection();
     app.AppList.fetch().done(function() {
         app.loadTemplates(["AboutView", "HeaderView", "HeaderCategoryMenuItemView",
-                "AppListItemView", "AppListGroupView", "AppDetailsView"
+                "AppListItemView", "AppListGroupView", "AppDetailsView", "AppCodeView", "AppDeployView"
             ],
             function() {
                 app.theHeaderView = new app.HeaderView();

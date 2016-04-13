@@ -14,10 +14,9 @@ app.AppDetailsView = Backbone.View.extend({
         }
         data.images = imgHTML;
         var codeHTML = "";
-        _.forEach(this.model.implementations, function(code) {
+        _.forEach(this.model.implementations.models, function(model) {
             // generar la vista de implementacion
-            console.log(code);
-            codeHTML += "implementacion - " + code.name;
+            codeHTML += new app.AppCodeView({model: model}).render().$el.html();
         });
         if (codeHTML == "") {
             codeHTML = "Esta aplicacion no tiene ninguna implementación.";
@@ -28,32 +27,28 @@ app.AppDetailsView = Backbone.View.extend({
         
     }
 });
-/*
+
 app.AppCodeView = Backbone.View.extend({
-    className: 'col-md-8',
-    initialize: function() {
-    },
     render: function() {
         var data = _.clone(this.model.attributes);
-        data.description = data.description;
-        data.id = this.model.id;
-        var imgHTML = "";
-        _.forEach(data.images, function(imgsrc) {
-            imgHTML += ('<img class="img-responsive" src="'+imgsrc+'"><br>');
+        var deployHTML = "";
+        _.forEach(this.model.deployments.models, function(deploy) {
+            console.log(deploy);
+            deployHTML +=new app.AppDeployView({model: deploy}).render().$el.html();
         });
-        if (imgHTML == "") {
-            imgHTML = "Esta aplicacion no tiene ninguna imagen.";
+        if (deployHTML == "") {
+            deployHTML = "Esta implementación no tiene ningún despliegue.";
         }
-        data.images = imgHTML;
-        var codeHTML = "";
-        _.forEach(data.images, function(imgsrc) {
-            imgHTML += ('<img class="img-responsive" src="'+imgsrc+'"><br>');
-        });
-        if (imgHTML == "") {
-            imgHTML = "Esta aplicacion no tiene ninguna imagen.";
-        }
+        data.deployments = deployHTML;
         this.$el.html(this.template(data));
         return this;
     }
 });
-*/
+
+app.AppDeployView = Backbone.View.extend({
+    render: function() {
+        var data = _.clone(this.model.attributes);
+        this.$el.html(this.template(data));
+        return this;
+    }
+});
