@@ -2,6 +2,19 @@
 app.Code = Backbone.Model.extend({
     className: "Implementation",
     initialize: function() {
+        this.deployments = new (Backbone.Collection.extend({
+            model: app.Deploy,
+            localStorage: new Backbone.LocalStorage(this.cid)
+        }))()
+        this.deployments.fetch()
+    },
+    saveAll: function() {
+        _.each(this.deployments.models, function(deploy) {
+            deploy.save()
+        })
+    },
+    add: function(models) {
+        this.deployments.add(models)
     },
     defaults: {
         name: 'code name test',
@@ -31,6 +44,7 @@ app.AppObj = Backbone.Model.extend({
     className: "App",
     initialize: function() {
         this.implementations = new (Backbone.Collection.extend({
+            model: app.Code,
             localStorage: new Backbone.LocalStorage(this.cid)
         }))()
         this.implementations.fetch()
@@ -38,7 +52,7 @@ app.AppObj = Backbone.Model.extend({
     saveAll: function() {
         _.each(this.implementations.models, function(code) {
             code.save()
-            //code.saveAll()
+            code.saveAll()
         })
     },
     add: function(models) {
