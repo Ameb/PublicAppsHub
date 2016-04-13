@@ -22,6 +22,7 @@ app.AppDetailsView = Backbone.View.extend({
             codeHTML = "Esta aplicacion no tiene ninguna implementación.";
         }
         data.implementations = codeHTML;
+        data.implementations = codeHTML;
         this.$el.html(this.template(data));
         return this;
         
