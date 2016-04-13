@@ -3,14 +3,15 @@ app.Code = Backbone.Model.extend({
     className: "Implementation",
     initialize: function() {
     },
-    defau
+    defaults: {
         name: 'code name test',
         codeurl: '',
         author: '',
         platforms: []
     }
 });
-app.CodeCollection = Backbone.Collection.extend({model: app.Code, localStorage: new Backbone.LocalStorage('Apps-backbone')});
+// no podemos crearla asi ya que necesitamos un localstorage con nombre determinado
+// app.CodeCollection = Backbone.Collection.extend({model: app.Code, localStorage: new Backbone.LocalStorage('Apps-backbone')});
 // despliegues
 app.Deploy = Backbone.Model.extend({
     className: "Deploy",
@@ -23,13 +24,15 @@ app.Deploy = Backbone.Model.extend({
         company: ''
     }
 });
-app.DeployCollection = Backbone.Collection.extend({model: app.Deploy, localStorage: new Backbone.LocalStorage('Apps-backbone')});
+// no podemos crearla asi ya que necesitamos un localstorage con nombre determinado
+// app.DeployCollection = Backbone.Collection.extend({model: app.Deploy, localStorage: new Backbone.LocalStorage('Apps-backbone')});
 
 app.AppObj = Backbone.Model.extend({
     className: "App",
-    initialize: function() {
+    initialize: function(app) {
+        //para cada app necesitamos almacenar su coleccion en un local-storage unico
         this.implementations = new (Backbone.Collection.extend({
-            localStorage: new Backbone.LocalStorage('')
+            localStorage: new Backbone.LocalStorage(app.name)
         }))()
         this.implementations.fetch()
     },
