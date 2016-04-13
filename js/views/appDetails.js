@@ -14,7 +14,7 @@ app.AppDetailsView = Backbone.View.extend({
         }
         data.images = imgHTML;
         var codeHTML = "";
-        _.forEach(data.implementations, function(code) {
+        _.forEach(this.model.implementations, function(code) {
             // generar la vista de implementacion
             codeHTML += "implementacion - " + code.name;
         });
