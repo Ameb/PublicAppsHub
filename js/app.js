@@ -67,8 +67,18 @@ app.Router = Backbone.Router.extend({
         app.theHeaderView.selectMenuItem('');
     },
     DeployDetails: function(appid,codeid,deployid) {
-        var model = app.AppList.get(appid).implementations.get(codeid).deployments.get(deployid);
-        var el = $('#'+deployid);
+        var isNew = deployid == 'new';
+        if (isNew) {
+            var model = app.AppList.get(appid).implementations.get(codeid).deployments.add(new app.Deploy());
+            var el = $('#ND-'+codeid);
+            // si no estamos en la pagina de aplicacion
+            if (el.length == 0) {
+                el = $('#content');
+            }
+        } else {
+            var model = app.AppList.get(appid).implementations.get(codeid).deployments.get(deployid);
+            var el = $('#'+deployid)
+        }
         var form = new Backbone.Form({
             model: model,
             submitButton: 'Guardar'
@@ -88,6 +98,7 @@ app.Router = Backbone.Router.extend({
                 model.save();
                 Backbone.history.navigate('app/' + appid);
                 Backbone.history.loadUrl('app/' + appid);
+                el = $('#'+deployid)
                 el.prepend(app.successFormDiv);
                 $('.alert-success').fadeTo(2000, 500).slideUp(500, function() {
                     $('.alert-success').alert('close');
@@ -99,12 +110,23 @@ app.Router = Backbone.Router.extend({
         el.html(form.el);
     },
     CodeDetails: function(appid, codeid) {
-        var model = app.AppList.get(appid).implementations.get(codeid);
-        var el = $('#'+codeid);
+        var isNew = codeid == 'new';
+        if (isNew) {
+            var model = app.AppList.get(appid).implementations.add(new app.Code());
+            var el = $('#NC-'+appid);
+            // si no estamos en la pagina de aplicacion
+            if (el.length == 0) {
+                el = $('#content');
+            }
+        } else {
+            var model = app.AppList.get(appid).implementations.get(codeid);
+            var el = $('#'+codeid)
+        }
         var form = new Backbone.Form({
             model: model,
-            submitButton: 'Guardar'
+            submitButton: 'Guardar',
         }).render();
+        
         form.on('submit', function(e) {
             e.preventDefault();
             // validar
@@ -120,6 +142,7 @@ app.Router = Backbone.Router.extend({
                 model.save();
                 Backbone.history.navigate('app/' + appid);
                 Backbone.history.loadUrl('app/' + appid);
+                el = $('#'+codeid)
                 el.prepend(app.successFormDiv);
                 $('.alert-success').fadeTo(2000, 500).slideUp(500, function() {
                     $('.alert-success').alert('close');

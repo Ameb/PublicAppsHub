@@ -17,7 +17,7 @@ app.Code = Backbone.Model.extend({
         this.deployments.add(models)
     },
     defaults: {
-        name: 'code name test',
+        name: '',
         codeurl: '',
         author: '',
         platforms: []

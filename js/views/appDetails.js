@@ -36,7 +36,6 @@ app.AppCodeView = Backbone.View.extend({
         var codeid = this.model.id;
         var deployHTML = "";
         _.forEach(this.model.deployments.models, function(deploy) {
-            console.log(deploy);
             deployHTML +=new app.AppDeployView({model: deploy}).render(appid, codeid).$el.html();
         });
         if (deployHTML == "") {

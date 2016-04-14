@@ -1,12 +1,15 @@
-<div class="panel panel-default">
-  <div class="panel-heading panel-title">
-  	<%= name %>
-  </div>
-  <div class="panel-body">
-  	<p><strong>Categoria:</strong> <%= category %></p>
-    <%= description %>
-    <p><strong>Imágenes:</strong></p>
-    <%= images %>
-  </div>
-  	<%= implementations %>
+<div class="panel panel-default" id="<%= id %>">
+    <div class="panel-heading panel-title">
+        <%= name %>
+    </div>
+    <div class="panel panel-body">
+        <p><strong>Categoria:</strong> <%= category %></p>
+        <%= description %>
+        <p><strong>Imágenes:</strong></p>
+        <%= images %>
+    </div>
+    <%= implementations %>
+    <div class="panel panel-body" id="NC-<%= id %>">
+        <div class="text-center"><a href="#code/<%= id %>/new" class="btn btn-default">Nueva implementación</a></div>
+    </div>
 </div>
