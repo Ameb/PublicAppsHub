@@ -22,10 +22,10 @@ app.Code = Backbone.Model.extend({
         })
     },
     defaults: {
-        name: '',
-        codeurl: '',
-        author: '',
-        platforms: []
+        name: 'nombre implementacion',
+        codeurl: 'http://implementacion.com',
+        author: 'autor',
+        platforms: ['android','windows','iphone']
     }
 });
 // no podemos crearla asi ya que necesitamos un localstorage con nombre determinado
@@ -36,10 +36,10 @@ app.Deploy = Backbone.Model.extend({
     initialize: function() {
     },
     defaults: {
-        name: '',
-        deployurl: '',
-        area: '',
-        company: ''
+        name: 'nombre despliegue',
+        deployurl: 'http://despliegue.es',
+        area: 'area',
+        company: 'ACME'
     }
 });
 // no podemos crearla asi ya que necesitamos un localstorage con nombre determinado
