@@ -16,6 +16,11 @@ app.Code = Backbone.Model.extend({
     add: function(models) {
         this.deployments.add(models)
     },
+    destroyAll: function() {
+        _.each(this.deployments.models, function(deploy) {
+            deploy.destroy()
+        })
+    },
     defaults: {
         name: '',
         codeurl: '',
@@ -57,6 +62,12 @@ app.AppObj = Backbone.Model.extend({
     },
     add: function(models) {
         this.implementations.add(models)
+    },
+    destroyAll: function() {
+        _.each(this.implementations.models, function(code) {
+            code.destroyAll()
+            code.destroy()
+        })
     },
     /*
     // esto nos ayudará a cargar/guardar el modelo adecuadamente
