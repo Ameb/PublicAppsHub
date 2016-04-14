@@ -139,9 +139,8 @@ app.Deploy = app.Deploy.extend({
             validators: ['required']
         },
         company: {
-            type: 'List',
-            itemType: 'Text',
-            title: 'Plataformas',
+            type: 'Text',
+            title: 'Compañía',
             validators: ['required']
         }
     }
