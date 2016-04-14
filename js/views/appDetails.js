@@ -53,7 +53,6 @@ app.AppDeployView = Backbone.View.extend({
         var data = _.clone(this.model.attributes);
         data.appid = appid;
         data.codeid = codeid;
-        data.deployid = this.model.id;
         this.$el.html(this.template(data));
         return this;
     }
