@@ -107,13 +107,13 @@ app.AppCollection = Backbone.Collection.extend({
         })
     },
     // list categories devuelve una lista de los nombres de las categorias
-    listCategories2: function() {
-    //    return [...new Set(this.models.map(item => item.attributes.category))];
-    },
+    listCategories: function() {
+        return [...new Set(this.models.map(item => item.attributes.category))];
+    },/*
     //Esto es 10 veces mas lento
     listCategories: function() {
         return _.uniq(this.pluck());
-    },
+    },*/
     
     // groupedApps devuelve las apps agrupadas por categoria
     groupedApps: function() {

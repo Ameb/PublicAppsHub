@@ -69,7 +69,7 @@ app.Router = Backbone.Router.extend({
     DeployDetails: function(appid,codeid,deployid) {
         var isNew = deployid == 'new';
         if (isNew) {
-            var model = app.AppList.get(appid).implementations.get(codeid).deployments.add(new app.Deploy());
+            var model = app.AppList.get(appid).implementations.get(codeid).deployments.create(new app.Deploy());
             var el = $('#ND-'+codeid);
             // si no estamos en la pagina de aplicacion
             if (el.length == 0) {
@@ -79,10 +79,16 @@ app.Router = Backbone.Router.extend({
             var model = app.AppList.get(appid).implementations.get(codeid).deployments.get(deployid);
             var el = $('#'+deployid)
         }
+        var id = model.id;
         var form = new Backbone.Form({
             model: model,
             submitButton: 'Guardar'
         }).render();
+        $('<button type="button" class="btn btn-danger pull-right">Borrar Despliegue</button>').appendTo(form.el).click(function() {
+            model.destroy();
+            Backbone.history.navigate('app/' + appid);
+            Backbone.history.loadUrl('app/' + appid);
+        });
         form.on('submit', function(e) {
             e.preventDefault();
             // validar
@@ -98,7 +104,7 @@ app.Router = Backbone.Router.extend({
                 model.save();
                 Backbone.history.navigate('app/' + appid);
                 Backbone.history.loadUrl('app/' + appid);
-                el = $('#'+deployid)
+                el = $('#'+id)
                 el.prepend(app.successFormDiv);
                 $('.alert-success').fadeTo(2000, 500).slideUp(500, function() {
                     $('.alert-success').alert('close');
@@ -112,7 +118,7 @@ app.Router = Backbone.Router.extend({
     CodeDetails: function(appid, codeid) {
         var isNew = codeid == 'new';
         if (isNew) {
-            var model = app.AppList.get(appid).implementations.add(new app.Code());
+            var model = app.AppList.get(appid).implementations.create(new app.Code());
             var el = $('#NC-'+appid);
             // si no estamos en la pagina de aplicacion
             if (el.length == 0) {
@@ -122,11 +128,17 @@ app.Router = Backbone.Router.extend({
             var model = app.AppList.get(appid).implementations.get(codeid);
             var el = $('#'+codeid)
         }
+        var id = model.id;
         var form = new Backbone.Form({
             model: model,
             submitButton: 'Guardar',
         }).render();
-        
+        $('<button type="button" class="btn btn-danger pull-right">Borrar Implementación</button>').appendTo(form.el).click(function() {
+            model.destroyAll();
+            model.destroy();
+            Backbone.history.navigate('app/' + appid);
+            Backbone.history.loadUrl('app/' + appid);
+        });
         form.on('submit', function(e) {
             e.preventDefault();
             // validar
@@ -142,7 +154,7 @@ app.Router = Backbone.Router.extend({
                 model.save();
                 Backbone.history.navigate('app/' + appid);
                 Backbone.history.loadUrl('app/' + appid);
-                el = $('#'+codeid)
+                el = $('#'+id)
                 el.prepend(app.successFormDiv);
                 $('.alert-success').fadeTo(2000, 500).slideUp(500, function() {
                     $('.alert-success').alert('close');
@@ -217,7 +229,7 @@ app.Router = Backbone.Router.extend({
     reloadData: function() {
         if (confirm('¿Estas seguro de que quieres repoblar los datos de la aplicación?')) {
             // reset y carga de datos
-            app.AppList.localStorage._clear(null);
+            localStorage.clear();
             app.AppList.create(new app.AppObj({
                 'name': 'Tu Villavesa',
                 'category': 'Transporte',

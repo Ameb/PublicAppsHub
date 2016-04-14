@@ -135,7 +135,7 @@ app.Deploy = app.Deploy.extend({
         },
         area: {
             type: 'Text',
-            title: 'Autor',
+            title: 'Localización',
             validators: ['required']
         },
         company: {

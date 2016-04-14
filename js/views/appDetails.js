@@ -20,7 +20,7 @@ app.AppDetailsView = Backbone.View.extend({
             codeHTML += new app.AppCodeView({model: model}).render(appid).$el.html();
         });
         if (codeHTML == "") {
-            codeHTML = "Esta aplicacion no tiene ninguna implementación.";
+            codeHTML = "<p>Esta aplicacion no tiene ninguna implementación.</p>";
         }
         data.implementations = codeHTML;
         this.$el.html(this.template(data));
@@ -39,7 +39,7 @@ app.AppCodeView = Backbone.View.extend({
             deployHTML +=new app.AppDeployView({model: deploy}).render(appid, codeid).$el.html();
         });
         if (deployHTML == "") {
-            deployHTML = "Esta implementación no tiene ningún despliegue.";
+            deployHTML = "<p>Esta implementación no tiene ningún despliegue.</p>";
         }
         data.deployments = deployHTML;
         this.$el.html(this.template(data));
