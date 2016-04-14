@@ -114,6 +114,17 @@ app.Router = Backbone.Router.extend({
             }
         });
         el.html(form.el);
+        $('<button type="button" class="btn btn-info btn-xs">Obtener Datos Geolocalizacion</button>').appendTo($('.field-area span')).click(function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos){
+                    console.log(pos);
+                    var input = $('.field-area input');
+                    input.val(input.val()+' (lat: '+pos.coords.latitude+', long: '+pos.coords.longitude+')');
+                })
+            } else {
+                alert('No es posible obtener geolocalizacion en este navegador');
+            }
+        });
     },
     CodeDetails: function(appid, codeid) {
         var isNew = codeid == 'new';
