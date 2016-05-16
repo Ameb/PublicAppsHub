@@ -1,10 +1,14 @@
 // implementaciones
 app.Code = Backbone.Model.extend({
     className: "Implementation",
+    _parse_class_name: "Code",
     initialize: function() {
         this.deployments = new (Backbone.Collection.extend({
             model: app.Deploy,
+            _parse_class_name: "Deploy",
+            /*
             localStorage: new Backbone.LocalStorage(this.cid)
+            */
         }))()
         this.deployments.fetch()
     },
@@ -33,6 +37,7 @@ app.Code = Backbone.Model.extend({
 // despliegues
 app.Deploy = Backbone.Model.extend({
     className: "Deploy",
+    _parse_class_name: "Deploy",
     initialize: function() {
     },
     defaults: {
@@ -47,10 +52,14 @@ app.Deploy = Backbone.Model.extend({
 
 app.AppObj = Backbone.Model.extend({
     className: "App",
+    _parse_class_name: "AppObj",
     initialize: function() {
         this.implementations = new (Backbone.Collection.extend({
             model: app.Code,
+            _parse_class_name: "Code",
+            /*
             localStorage: new Backbone.LocalStorage(this.cid)
+            */
         }))()
         this.implementations.fetch()
     },
@@ -99,7 +108,10 @@ app.AppCollection = Backbone.Collection.extend({
 
     model: app.AppObj,
 
+    /*
     localStorage: new Backbone.LocalStorage('Apps-backbone'),
+    */
+    _parse_class_name: "AppObj",
     saveAll: function() {
         _.each(this.models, function(model) {
             model.save()
