@@ -5,11 +5,13 @@ app.AppListView = Backbone.View.extend({
         this.categoryGroups = app.AppList.groupedApps();
         this.model.on("reset", this.render, this);
         // agrupamos las aplicaciones en categorias
+        /*
         this.model.on("add", function(appObj) {
             self.$el.append(new app.AppListItemView({
                 model: appObj
             }).render().el);
         });
+        */
     },
     render: function() {
         this.$el.empty();

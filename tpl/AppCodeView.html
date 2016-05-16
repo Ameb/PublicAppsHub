@@ -1,13 +1,13 @@
 <hr>
-<div class="panel panel-body implementation" id= "<%= id %>">
+<div class="panel panel-body implementation" id= "<%= objectId %>">
 	<div class="panel panel-header">
-	<h3>Implementación <%= name %> 	<a href="#code/<%= appid %>/<%= id %>" class="btn btn-default btn-xs pull-right">Modificar/Borrar</a></h3>
+	<h3>Implementación <%= name %> 	<a href="#code/<%= appid %>/<%= objectId %>" class="btn btn-default btn-xs pull-right">Modificar/Borrar</a></h3>
 	</div>
 	<p><strong>Repositorio:</strong> <%= codeurl %></p>
 	<p><strong>Autor:</strong> <%= author %></p>
 	<p><strong>Plataformas:</strong> <%= platforms %></p>
 	<%= deployments %>
-	<div class="col-md-8 text-center" id="ND-<%= id %>">
-  	<a href="#deploy/<%= appid %>/<%= id %>/new" class="btn btn-default btn-sm">Nuevo despliegue</a></h3>
+	<div class="col-md-8 text-center" id="ND-<%= objectId %>">
+  	<a href="#deploy/<%= appid %>/<%= objectId %>/new" class="btn btn-default btn-sm">Nuevo despliegue</a></h3>
   	</div>
 </div>

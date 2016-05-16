@@ -218,14 +218,14 @@ app.Router = Backbone.Router.extend({
                     listai.push(item.innerHTML);
                 })
                 newApp.set('images', listai);
-                app.AppList.create(newApp);
-                Backbone.history.navigate('app/' + newApp.attributes.id);
-                Backbone.history.loadUrl('app/' + newApp.attributes.id);
-                $('#content').prepend(app.successFormDiv);
-                $('.alert-success').fadeTo(2000, 500).slideUp(500, function() {
-                    $('.alert-success').alert('close');
-                });
-
+                app.AppList.create(newApp, {success: function() {
+                    Backbone.history.navigate('app/' + newApp.attributes.objectId);
+                    Backbone.history.loadUrl('app/' + newApp.attributes.objectId);
+                    $('#content').prepend(app.successFormDiv);
+                    $('.alert-success').fadeTo(2000, 500).slideUp(500, function() {
+                        $('.alert-success').alert('close');
+                    });
+                }});
             }
         });
         this.$content.html(form.el);
@@ -240,52 +240,59 @@ app.Router = Backbone.Router.extend({
     reloadData: function() {
         if (confirm('¿Estas seguro de que quieres repoblar los datos de la aplicación?')) {
             // reset y carga de datos
-            localStorage.clear();
+            //localStorage.clear();
+            _.each(_.clone(app.AppList.models), function(model) {
+                model.destroy();
+            });
+            $.when(
             app.AppList.create(new app.AppObj({
                 'name': 'Tu Villavesa',
                 'category': 'Transporte',
                 'description': 'A esta aplicación le hemos puesto imágenes a modo de Demo',
                 'images': app.TuVillavesaImgs
-            }));
+            })),
             app.AppList.create(new app.AppObj({
                 'name': 'Provincial',
                 'category': 'Transporte'
-            }));
+            })),
             app.AppList.create(new app.AppObj({
                 'name': 'Taxi App',
                 'category': 'Transporte'
-            }));
+            })),
             app.AppList.create(new app.AppObj({
                 'name': 'Medico de guardia',
                 'category': 'Salud'
-            }));
+            })),
             app.AppList.create(new app.AppObj({
                 'name': 'Farmacias',
                 'category': 'Salud'
-            }));
+            })),
             app.AppList.create(new app.AppObj({
                 'name': 'CinfaPlus',
                 'category': 'Salud'
-            }));
+            })),
             app.AppList.create(new app.AppObj({
                 'name': 'El numero Pi',
                 'category': 'Apps Educativas'
-            }));
+            })),
             app.AppList.create(new app.AppObj({
                 'name': 'WikiApp',
                 'category': 'Apps Educativas'
-            }));
+            })),
             app.AppList.create(new app.AppObj({
                 'name': 'Sabias Que',
                 'category': 'Apps Educativas'
-            }));
+            })),
             app.AppList.create(new app.AppObj({
                 'name': 'Otra App',
                 'category': 'Otra Categoria'
-            }));
+            }))).then(function() {
+                app.AppList.fetch( {success: function () {
+                    Backbone.history.navigate("", true);
+                }});
+            });
         }
-        app.AppList.fetch()
-        this.navigate("", true);
+
     }
 });
 
