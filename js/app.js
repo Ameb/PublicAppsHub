@@ -51,7 +51,7 @@ app.Router = Backbone.Router.extend({
         app.theHeaderView.selectMenuItem('');
         if (app.AppList.isEmpty()) {
             this.$content.html('<div class="well"> <strong>Parece que no hay datos!</strong><br>Puedes usar la opción\
-             de Reset del menú para cargar unos datos de Demo</div>');
+             de <strong>Reset</strong> del menú para cargar unos datos de Demo</div>');
         }
     },
     showAppCategoryList: function(categoryName) {
